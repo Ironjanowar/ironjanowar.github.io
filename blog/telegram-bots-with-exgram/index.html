@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>telegram-bots-with-exgram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../index.css">
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+    <style>
+     #blog-display {
+       font-family: "Arial Black", Gadget, sans-serif;
+     }
+    </style>
+  </head>
+  <body>
+    <div id="loading">
+      <div id="spinner"></div>
+    </div>
+    <a href="/" class="go_back"><i class="fas fa-arrow-left"></i></a>
+    <div id="background"></div>
+    <table id="profile_blog">
+      <tbody><tr>
+        <td style="width:8vw;"><div id="profile_img_blog"></div></td>
+        <td style="width:52vw;">
+          <div id="username_blog"></div>
+        </td>
+      </tr>
+      </tbody></table>
+    <div id="blog-display">
+      <h1 id="blog_title">Telegram bots with ExGram</h1>
+      <h1 id="blog_sub_title"></h1>
+      <div id="blog">
+        <p>
+          It has been more than a year since a wrote <a href="https://medium.com/@ironjanowar/telegram-bots-and-elixir-705909102496">Telegram Bots and Elixir</a> a little guide that shows how to create Telegram bots with Elixir thanks to <i>Telex</i>. But <i>Telex</i> does not exist anymore, since it was updated to the awesome <a href="https://github.com/rockneurotiko/ex_gram"><i>ExGram</i></a>!
+        </p>
+
+        <p>
+          So it is time to see how can we create a Telegram bot using <i>ExGram</i>
+        </p>
+
+        <h1>Things about this post</h1>
+        <ul>
+          <li>
+            I will use an "Elixir-like" syntax to talk about functions, this means a function called <b>foo</b> that receives one argument will be written as: <b>foo/1</b>
+          </li>
+          <li>
+            The code written in this guide would be uploaded to the <a href="https://github.com/Ironjanowar/nice_bot">nice_bot</a> repo on GitHub
+          </li>
+          <li>
+            I will assume that the reader knows a bit of Elixir, at least Elixir syntax
+          </li>
+          <li>
+            I will use a fake bot token (just saying)
+          </li>
+          <li>
+            I will try my best to explain myself as well as possible :)
+          </li>
+        </ul>
+
+        <h1>Lets start!</h1>
+        <p>
+          First of all, lets create the project with the help of <i>mix</i>, executing in our shell the command <code>mix new nice_bot --sup</code>.
+          You should see something like this:
+        </p>
+        <img alt="Project Creation" src="images/project_creation.png" style="height: 40%; width: 70%; display: block; margin-left: auto; margin-right: auto;"/>
+        <p>
+          We passed the <code>--sup</code> to let <i>mix</i> know that we want an <code>Application</code> module (we will focus on that later).
+
+          Now we are going to see two main parts: the <i>mix.exs</i> file and the <i>lib</i> directory.
+        </p>
+
+        <h1><i>mix.exs</i> file</h1>
+        <script src="https://gist.github.com/Ironjanowar/4547387ebcecda2478815f55e6b238c7.js"></script>
+
+        <p>
+          Your <i>mix.exs</i> file should be very similar to the one above. What we need to do here is modify de <b>deps/0</b> function to add <i>ExGram</i> as a dependency, this should be simple by adding: <code>{:ex_gram, "~> 0.6"}, {:jason, "~> 1.1"}</code>.
+
+          Your <b>deps/0</b> function should look like this now:
+        </p>
+        <script src="https://gist.github.com/Ironjanowar/bc8fcdff7508c69e83b7096df52df484.js"></script>
+
+        <h1><i>lib</i> directory</h1>
+        <p>
+          Here is where the coding starts! Lets go to the <code>NiceBot.Application</code> module located in <code>lib/nice_bot/application.ex</code>, you should see something like this:
+        </p>
+        <script src="https://gist.github.com/Ironjanowar/77f9c347e1a85d79c95c1f9a022f7f8d.js"></script>
+        <p>
+          In this module we are going to initialized <i>ExGram</i> and our bot. But first we need a bot token, we could get one from <a href="t.me/botfather">@BotFather</a> using the <b>/newbot</b> command and following the steps.
+        </p>
+        <p>
+          We should have a token that looks like this one: <code>378322483:AAFdz_7lJt69S5HO7ep2GgBqTc36AIo3Ouc</code>
+          Now we can tell our application to initialize <i>ExGram</i> and our bot module <code>NiceBot.Bot</code> (that we are going to create hereunder)
+        </p>
+        <script src="https://gist.github.com/Ironjanowar/2be5c758e0d6c7abbe31dbb0c0df57e2.js"></script>
+        <p>
+          Create a file in the <code>lib/nice_bot</code> directory called <code>bot.ex</code>, this is where the <code>NiceBot.Bot</code> is going to be. And the module should look like this:
+        </p>
+        <script src="https://gist.github.com/Ironjanowar/44c930b2d3ff8a0292a13027f8a938fe.js"></script>
+        <p>
+          In line 2 we specify the bot name, <i>ExGram</i> allows multiple bots in a single application, so we need a name to differenciate them.
+          In line 4 we tell <i>ExGram</i> that this module defines message handlers for the <code>:nice_bot</code>.
+          In line 7 we define a <b>bot/0</b> function that <i>ExGram</i> needs.
+          And finally in line 9 we define our first handler.
+        </p>
+        <h2><b>handle/2</b> function</h2>
+        <p>
+          But what are handlers?
+          They are functions that are executed when a message arrives. Thanks to the awesome pattern matching that <i>Elixir</i> offers we overload the <b>handle/2</b> function to match different types of messages, we will see an example of this later on.
+        </p>
+        <p>
+          The <b>handle/2</b> function receives two parameters: a tuple and a variable called context.
+        </p>
+        <h3>Handler's tuple</h3>
+        <p>
+          In the first argument we receive processed information about a message. This parameter can be a tuple or a triplet. In this case we have the triplet <code>{:command, "start", _msg}</code>, this handler will be executed when the <b>/start</b> command is sent to the bot. In the third element of the triplet we have the full message specified in the <a href="https://core.telegram.org/bots/api#message">Telegram bot API documentation</a> in case we want to extract extra information from it.
+        </p>
+        <h3>Handler's context</h3>
+        <p>
+          The context variable contains extra information about the full update that arrived to the bot plus some information injected by <i>ExGram</i>, this is also specified in the <a href="https://core.telegram.org/bots/api#update">Telegrab bot API documentation</a>
+        </p>
+        <p>
+          Finally we answer the <b>/start</b> command with the text <code>"Hi!"</code> to greet our user using the <b>answer/3</b> macro. It has a third parameter that is optional and that is why we use it with two arguments. This macro only needs the message <i>context</i> and the text to send back.
+        </p>
+
+        <h1>Lets run!</h1>
+        <p>
+          The only thing we need now is getting our dependencies and running the bot with the following commands:
+          <code>
+            mix deps.get <br>
+            mix run --no-halt
+          </code>
+        </p>
+        <p>
+          And finally lets go to our bot in Telegram and check if this code works by sending <b>/start</b> to the bot.
+        </p>
+        <img src="images/telegram_test.png" style="height: 5%; width: 30%; display: block; margin-left: auto; margin-right: auto;"/>
+        <p>
+          Nice! Now you know how to set up a Telegram bot with <i>ExGram</i>. If you want to learn some more check out this bots!
+        </p>
+        <ul>
+          <li><a href="https://github.com/ironjanowar/spotify_uri_bot">Spotify Uri Bot</a></li>
+          <li><a href="https://github.com/ironjanowar/refraner_bot">Refraner Bot</a></li>
+        </ul>
+
+        Don't forget to star the <a href="https://github.com/rockneurotiko/ex_gram"><i>ExGram</i></a> repository on Github!
+      </div>
+    </div>
+    <div id="footer_blog">
+      <a href="https://github.com/imfunniee" target="_blank">made on earth by a human</a>
+    </div>
+    <script type="text/javascript">
+     setTimeout(function(){
+         document.getElementById("loading").classList.add("animated");
+         document.getElementById("loading").classList.add("fadeOut");
+         setTimeout(function(){
+             document.getElementById("loading").classList.remove("animated");
+             document.getElementById("loading").classList.remove("fadeOut");
+             document.getElementById("loading").style.display = "none";
+         },800);
+     },1500);
+     $.getJSON("../../config.json", function(user){
+         var icon = document.createElement("link");
+         icon.setAttribute("rel", "icon");
+         icon.setAttribute("href", user[0].userimg);
+         icon.setAttribute("type", "image/png");
+         document.getElementsByTagName("head")[0].appendChild(icon);
+         document.getElementById("profile_img_blog").style.background = `url('${user[0].userimg}') center center`;
+         document.getElementById("username_blog").innerHTML = `<spanstyle="display:${user[0].name == null || !user[0].name ? 'none' : 'block'};">${user[0].name}</span><br>@${user[0].username}<b id="blog_time"></b>`;
+     });
+    </script>
+
+  </body></html>
